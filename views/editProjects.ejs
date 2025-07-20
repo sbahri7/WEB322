@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Project - <%= project.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/main.css" rel="stylesheet" />
+</head>
+<body>
+  <%- include('partials/navbar', { page: '' }) %>
+
+  <!-- Hero Section -->
+  <div class="hero bg-base-100 py-10">
+    <div class="hero-content text-center">
+      <div class="max-w-xl">
+        <h1 class="text-5xl font-bold">Edit Project: <%= project.title %></h1>
+        <p class="py-6">Use the form below to update this project.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Project Form -->
+  <div class="container mx-auto px-4 py-10">
+    <form action="/solutions/editProject" method="POST" class="max-w-lg mx-auto space-y-4">
+      <!-- Required to identify which project to edit -->
+      <input type="hidden" name="id" value="<%= project.id %>"> 
+
+      <label class="block font-bold" for="title">Title</label>
+      <input type="text" id="title" name="title" required value="<%= project.title %>" class="input input-bordered w-full" />
+
+      <label class="block font-bold" for="feature_img_url">Feature Image URL</label>
+      <input type="url" id="feature_img_url" name="feature_img_url" required value="<%= project.feature_img_url %>" class="input input-bordered w-full" />
+
+      <label class="block font-bold" for="sector_id">Sector</label>
+      <select id="sector_id" name="sector_id" required class="select select-bordered w-full">
+        <% sectors.forEach(sector => { %>
+          <option 
+            value="<%= sector.id %>"
+            <%= (project.sector_id == sector.id) ? "selected" : "" %>
+          >
+            <%= sector.sector_name %>
+          </option>
+        <% }) %>
+      </select>
+
+      <label class="block font-bold" for="intro_short">Intro</label>
+      <textarea id="intro_short" name="intro_short" required class="textarea textarea-bordered w-full"><%= project.intro_short %></textarea>
+
+      <label class="block font-bold" for="summary_short">Summary</label>
+      <textarea id="summary_short" name="summary_short" required class="textarea textarea-bordered w-full"><%= project.summary_short %></textarea>
+
+      <label class="block font-bold" for="impact">Impact</label>
+      <textarea id="impact" name="impact" required class="textarea textarea-bordered w-full"><%= project.impact %></textarea>
+
+      <label class="block font-bold" for="original_source_url">Original Source URL</label>
+      <input type="url" id="original_source_url" name="original_source_url" required value="<%= project.original_source_url %>" class="input input-bordered w-full" />
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-between mt-6">
+        <button type="submit" class="btn btn-success w-full sm:w-auto">Update Project</button>
+        <a href="/solutions/deleteProject/<%= project.id %>" class="btn btn-error w-full sm:w-auto"
+           onclick="return confirm('Are you sure you want to delete this project? This action cannot be undone.');">
+          Delete Project
+        </a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

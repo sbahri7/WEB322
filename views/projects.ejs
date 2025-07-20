@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects - Climate Solutions</title>
-  <link href="/css/main.css" rel="stylesheet" />
+  <title>All Projects - Climate Solutions</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/main.css" rel="stylesheet">
 </head>
-<body class="bg-base-100 text-base-content">
-
-  <!-- Navbar Partial -->
+<body>
   <%- include('partials/navbar', { page: '/solutions/projects' }) %>
-
-  <!-- Hero Section -->
-  <div class="hero bg-base-100 py-10">
+  <div class="hero bg-base-100 py-8">
     <div class="hero-content text-center">
       <div class="max-w-xl">
-        <h1 class="text-5xl font-bold">All Projects</h1>
-        <p class="py-6">Browse climate solutions by sector, or view all projects below.</p>
+        <h1 class="text-4xl font-bold mb-2">All Projects</h1>
+        <p class="text-lg mb-4">Browse climate solutions by sector, or see all projects below.</p>
+        <div class="flex flex-wrap gap-2 justify-center">
+          <a href="/solutions/projects?sector=agriculture" class="btn btn-outline btn-sm">Agriculture</a>
+          <a href="/solutions/projects?sector=industry" class="btn btn-outline btn-sm">Industry</a>
+          <a href="/solutions/projects?sector=electricity" class="btn btn-outline btn-sm">Electricity</a>
+          <a href="/solutions/projects" class="btn btn-outline btn-sm">All</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Sector Filters -->
-  <div class="container mx-auto px-4 pb-6">
-    <div class="flex flex-wrap gap-2 justify-center">
-      <a href="/solutions/projects?sector=agriculture" class="btn btn-outline btn-sm">Agriculture</a>
-      <a href="/solutions/projects?sector=industry" class="btn btn-outline btn-sm">Industry</a>
-      <a href="/solutions/projects?sector=electricity" class="btn btn-outline btn-sm">Electricity</a>
-      <a href="/solutions/projects" class="btn btn-outline btn-sm">All</a>
-    </div>
-  </div>
-
-  <!-- Projects Table -->
   <div class="container mx-auto px-4 pb-10">
     <div class="overflow-x-auto">
-      <table class="table w-full">
+      <table class="table w-full bg-base-100">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Sector</th>
-            <th>Summary</th>
-            <th>Details</th>
+            <th class="text-lg">Title</th>
+            <th class="text-lg">Sector</th>
+            <th class="text-lg">Summary</th>
+            <th class="text-lg">Details</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +53,5 @@
       </table>
     </div>
   </div>
-
 </body>
 </html>

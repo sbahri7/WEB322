@@ -1,88 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Climate Solutions</title>
-  <link href="/css/main.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/main.css" rel="stylesheet">
 </head>
-<body class="bg-base-100 text-base-content">
-
-  <!-- Navbar -->
-  <div class="navbar bg-base-200">
-    <div class="flex-1">
-      <a href="/" class="btn btn-ghost text-xl">Climate Solutions</a>
-    </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal px-1">
-        <li><a href="/about">About</a></li>
-        <li>
-          <details>
-            <summary>Sector</summary>
-            <ul class="p-2 bg-base-100">
-              <li><a href="/solutions/projects?sector=agriculture">Agriculture</a></li>
-              <li><a href="/solutions/projects?sector=industry">Industry</a></li>
-              <li><a href="/solutions/projects?sector=electricity">Electricity</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
+<body>
+  
+  <%- include('partials/navbar', { page: '/' }) %>
+  <!-- Hero Section with background image -->
+  <div class="hero min-h-[400px] bg-gradient-to-r from-green-100 to-blue-100">
+  <div class="hero-content flex-col lg:flex-row justify-between w-full">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" class="max-w-md rounded-lg shadow-2xl hidden md:block" alt="Sustainable nature"/>
+    <div class="text-center lg:text-left">
+      <h1 class="text-6xl font-bold mb-4 text-green-900">Welcome to Climate Solutions</h1>
+      <p class="py-4 text-xl text-green-800">Explore innovative projects that tackle climate change from every sector. Join us in making a difference.</p>
+      <a href="/solutions/projects" class="btn btn-primary btn-lg mt-2">Explore All Projects</a>
     </div>
   </div>
-
-  <!-- Hero -->
-  <div class="hero bg-base-100 py-10">
-    <div class="hero-content text-center">
-      <div class="max-w-xl">
-        <h1 class="text-5xl font-bold">Explore Climate Solutions</h1>
-        <p class="py-6">Discover innovative projects tackling climate change across various sectors.</p>
-        <a href="/solutions/projects" class="btn btn-primary">View All Projects</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Project Cards -->
-  <div class="container mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <!-- Card 1 -->
-      <div class="card bg-base-200 shadow-xl">
-        <figure><img src="https://via.placeholder.com/400x200" alt="Project 1" /></figure>
-        <div class="card-body">
-          <h2 class="card-title">Project Title 1</h2>
-          <p>Short summary of project 1 goes here.</p>
-          <div class="card-actions justify-end">
-            <a href="/solutions/projects/1" class="btn btn-outline btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card bg-base-200 shadow-xl">
-        <figure><img src="https://via.placeholder.com/400x200" alt="Project 2" /></figure>
-        <div class="card-body">
-          <h2 class="card-title">Project Title 2</h2>
-          <p>Short summary of project 2 goes here.</p>
-          <div class="card-actions justify-end">
-            <a href="/solutions/projects/2" class="btn btn-outline btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card bg-base-200 shadow-xl">
-        <figure><img src="https://via.placeholder.com/400x200" alt="Project 3" /></figure>
-        <div class="card-body">
-          <h2 class="card-title">Project Title 3</h2>
-          <p>Short summary of project 3 goes here.</p>
-          <div class="card-actions justify-end">
-            <a href="/solutions/projects/3" class="btn btn-outline btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
+</div>
 
 </body>
 </html>
