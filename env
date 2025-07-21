@@ -1,0 +1,4 @@
+PGUSER=neondb_owner
+PGPASSWORD=npg_sxDv3wf2gqOM
+PGHOST=ep-soft-breeze-adbtnc3e-pooler.c-2.us-east-1.aws.neon.tech
+PGDATABASE=SenecaDB
