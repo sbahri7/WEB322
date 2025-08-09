@@ -1,32 +1,100 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-let User;
+// /modules/auth-service.js
+const mongoose = require('mongoose');
+require('dotenv').config(); // make sure .env is loaded in local dev
 
+let User; // will store the Mongoose model
+
+// Define a schema for your Users
 const userSchema = new mongoose.Schema({
-  userName: { type: String, unique: true },
+  userName: {
+    type: String,
+    unique: true
+  },
   password: String,
   email: String,
-  loginHistory: [{ dateTime: String, userAgent: String }]
+  loginHistory: [{
+    dateTime: Date,
+    userAgent: String
+  }]
 });
 
+// Initialize DB connection
 module.exports.initialize = function () {
-  return mongoose.connect(process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => { User = mongoose.model("users", userSchema); });
+  return new Promise((resolve, reject) => {
+
+    // ✅ Pick the database URI from the environment
+    const mongoURI = process.env.MONGODB_URI || process.env.MONGODB;
+
+    if (!mongoURI) {
+      reject("MongoDB connection string is missing! Check your .env or Vercel env vars.");
+      return;
+    }
+
+    // Connect to MongoDB
+    mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }).then(() => {
+      User = mongoose.model('users', userSchema);
+      console.log("✅ MongoDB connection established");
+      resolve();
+    }).catch(err => {
+      reject("MongoDB connection error: " + err);
+    });
+  });
 };
 
-module.exports.registerUser = async function (userData) {
-  if(userData.password !== userData.password2) throw "Passwords do not match";
-  const hash = await bcrypt.hash(userData.password, 10);
-  const newUser = new User({ userName: userData.userName, password: hash, email: userData.email, loginHistory: [] });
-  await newUser.save();
+// Register a new user
+module.exports.registerUser = function (userData) {
+  return new Promise((resolve, reject) => {
+    if (userData.password !== userData.password2) {
+      reject("Passwords do not match");
+      return;
+    }
+
+    bcrypt = require('bcryptjs');
+    bcrypt.hash(userData.password, 10)
+      .then(hash => {
+        userData.password = hash;
+        let newUser = new User(userData);
+        return newUser.save();
+      })
+      .then(() => resolve())
+      .catch(err => {
+        if (err.code === 11000) {
+          reject("User Name already taken");
+        } else {
+          reject("There was an error creating the user: " + err);
+        }
+      });
+  });
 };
 
-module.exports.checkUser = async function (userData) {
-  const user = await User.findOne({ userName: userData.userName });
-  if(!user) throw `Cannot find user: ${userData.userName}`;
-  const isValid = await bcrypt.compare(userData.password, user.password);
-  if(!isValid) throw "Incorrect Password";
-  user.loginHistory.unshift({ dateTime: (new Date()).toString(), userAgent: userData.userAgent });
-  await user.save();
-  return user;
+// Check user login
+module.exports.checkUser = function (userData) {
+  return new Promise((resolve, reject) => {
+    User.findOne({ userName: userData.userName }).exec()
+      .then(user => {
+        if (!user) {
+          reject("Unable to find user: " + userData.userName);
+        } else {
+          const bcrypt = require('bcryptjs');
+          bcrypt.compare(userData.password, user.password)
+            .then(match => {
+              if (match) {
+                // update login history
+                user.loginHistory.push({
+                  dateTime: new Date().toString(),
+                  userAgent: userData.userAgent
+                });
+                user.save().then(() => resolve(user));
+              } else {
+                reject("Incorrect Password for user: " + userData.userName);
+              }
+            });
+        }
+      }).catch(err => {
+        reject("Unable to find user: " + userData.userName);
+      });
+  });
 };
