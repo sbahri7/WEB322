@@ -6,7 +6,6 @@ const authService = require('../modules/auth-service');
 const app = express();
 require('dotenv').config();  // This loads .env locally but is ignored on Vercel
 
-
 module.exports = app; // Vercel style
 
 app.set('view engine', 'ejs');
