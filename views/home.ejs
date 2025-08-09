@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Climate Solutions</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/css/main.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
-  
-  <%- include('partials/navbar', { page: '/' }) %>
+
+<%- include('partials/navbar', { page: '/' }) %>
+
+
+
+
+
   <!-- Hero Section with background image -->
   <div class="hero min-h-[400px] bg-gradient-to-r from-green-100 to-blue-100">
-  <div class="hero-content flex-col lg:flex-row justify-between w-full">
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" class="max-w-md rounded-lg shadow-2xl hidden md:block" alt="Sustainable nature"/>
-    <div class="text-center lg:text-left">
-      <h1 class="text-6xl font-bold mb-4 text-green-900">Welcome to Climate Solutions</h1>
-      <p class="py-4 text-xl text-green-800">Explore innovative projects that tackle climate change from every sector. Join us in making a difference.</p>
-      <a href="/solutions/projects" class="btn btn-primary btn-lg mt-2">Explore All Projects</a>
+    <div class="hero-content flex-col lg:flex-row justify-between w-full">
+      <div class="max-w-md">
+        <h1 class="text-5xl font-bold">Welcome to Our Website</h1>
+        <p class="py-6">
+          Your success is our mission. Explore our services and projects to see how we can help you grow.
+        </p>
+        <a href="/solutions/projects" class="btn btn-primary">View Projects</a>
+      </div>
+      <img src="/images/hero.jpg" alt="Hero Image" class="max-w-sm rounded-lg shadow-2xl" />
     </div>
   </div>
-</div>
+
+  <!-- Content Section -->
+  <section class="p-6">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-semibold mb-4">Our Solutions</h2>
+      <p>
+        We provide innovative solutions across various sectors. Browse our projects to learn more about
+        what we do and how we do it.
+      </p>
+    </div>
+  </section>
 
 </body>
 </html>

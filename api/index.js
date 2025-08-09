@@ -26,9 +26,9 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// Pass user session to views
 app.use((req, res, next) => {
-  res.locals.user = req.session.user;
+  // Always set res.locals.user — even if null — so it's safe in EJS
+  res.locals.user = req.session.user || null;
   next();
 });
 
@@ -37,7 +37,10 @@ Promise.all([projectData.initialize(), authService.initialize()])
   .then(() => {
 
     // Home/About
-    app.get('/', (req, res) => res.render("home", { page: "/" }));
+   app.get('/', (req, res) => {
+  res.render("home", { page: "/" });
+});
+
     app.get('/about', (req, res) => res.render("about", { page: "/about" }));
 
     // Projects listing/detail
