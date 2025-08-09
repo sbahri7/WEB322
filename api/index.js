@@ -5,6 +5,8 @@ const session = require('express-session');
 const projectData = require('../modules/projects');
 const authService = require('../modules/auth-service');
 const app = express();
+const router = require('./router');
+
 require('dotenv').config();  // Loads .env locally, ignored on Vercel
 
 module.exports = app; // Vercel style
