@@ -1,9 +1,10 @@
 // /api/index.js
-const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const projectData = require('../modules/projects');
 const authService = require('../modules/auth-service');
+const express = require('express');
+const router = require('./router');  // This is why router.js is required
 const app = express();
 
 require('dotenv').config();  // Loads .env locally (ignored on Vercel)

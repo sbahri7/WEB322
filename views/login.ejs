@@ -1,0 +1,7 @@
+<form method="POST" action="/login" class="card bg-base-200 p-8 max-w-lg mx-auto space-y-4">
+  <h2 class="text-2xl font-bold mb-4">Login</h2>
+  <% if (errorMessage) { %><span class="text-error"><%= errorMessage %></span><% } %>
+  <input name="userName" type="text" placeholder="User Name" required class="input input-bordered w-full" />
+  <input name="password" type="password" placeholder="Password" required class="input input-bordered w-full" />
+  <button type="submit" class="btn btn-primary w-full mt-2">Login</button>
+</form>

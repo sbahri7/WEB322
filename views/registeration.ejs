@@ -1,0 +1,10 @@
+<form method="POST" action="/register" class="card bg-base-200 p-8 max-w-lg mx-auto space-y-4">
+  <h2 class="text-2xl font-bold mb-4">Register</h2>
+  <% if (errorMessage) { %><span class="text-error"><%= errorMessage %></span><% } %>
+  <% if (successMessage) { %><span class="text-success"><%= successMessage %></span><% } %>
+  <input name="userName" type="text" placeholder="User Name" required class="input input-bordered w-full" />
+  <input name="email" type="email" placeholder="Email" required class="input input-bordered w-full" />
+  <input name="password" type="password" placeholder="Password" required class="input input-bordered w-full" />
+  <input name="password2" type="password" placeholder="Confirm Password" required class="input input-bordered w-full" />
+  <button type="submit" class="btn btn-primary w-full mt-2">Register</button>
+</form>
