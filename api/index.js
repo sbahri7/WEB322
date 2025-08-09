@@ -1,35 +1,44 @@
+// /api/index.js
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const projectData = require('../modules/projects');
 const authService = require('../modules/auth-service');
 const app = express();
-require('dotenv').config();  // This loads .env locally but is ignored on Vercel
+require('dotenv').config();  // Loads .env locally, ignored on Vercel
 
 module.exports = app; // Vercel style
 
+// View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
+
+// Static files + form parsing
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 
+// Session
 app.use(session({
   secret: 'your_secret_key',
   resave: false,
   saveUninitialized: true
 }));
 
-// Middleware for showing user session in views
+// Pass user session to views
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
 
+// Initialize Project + Auth services, then start routes
 Promise.all([projectData.initialize(), authService.initialize()])
 .then(() => {
-  // Home, About, Projects, Project Detail...
+
+  // Home/About
   app.get('/', (req, res) => res.render("home", { page: "/" }));
   app.get('/about', (req, res) => res.render("about", { page: "/about" }));
+
+  // Projects listing/detail
   app.get('/solutions/projects', (req, res) => {
     const sector = req.query.sector;
     (sector ? projectData.getProjectsBySector(sector) : projectData.getAllProjects())
@@ -42,11 +51,13 @@ Promise.all([projectData.initialize(), authService.initialize()])
       .catch(err => res.status(404).render('404', { page: '', message: err }));
   });
 
-  // Add/Edit/Delete project - protected routes (must be logged in)
+  // Auth check middleware
   function ensureLogin(req, res, next) {
     if (!req.session.user) return res.redirect('/login');
     next();
   }
+
+  // Add/Edit/Delete projects
   app.get('/solutions/addProject', ensureLogin, (req, res) => {
     projectData.getAllSectors()
       .then(sectors => res.render('addProject', { sectors }))
@@ -76,7 +87,7 @@ Promise.all([projectData.initialize(), authService.initialize()])
       .catch(err => res.render('500', { message: err }));
   });
 
-  // Registration and Login
+  // Registration
   app.get('/register', (req, res) => res.render('register', { errorMessage: null, successMessage: null }));
   app.post('/register', (req, res) => {
     authService.registerUser(req.body)
@@ -84,6 +95,7 @@ Promise.all([projectData.initialize(), authService.initialize()])
       .catch(err => res.render("register", { errorMessage: err, successMessage: null }));
   });
 
+  // Login
   app.get('/login', (req, res) => res.render("login", { errorMessage: null }));
   app.post('/login', (req, res) => {
     req.body.userAgent = req.get("User-Agent");
@@ -99,17 +111,19 @@ Promise.all([projectData.initialize(), authService.initialize()])
       .catch(err => res.render('login', { errorMessage: err }));
   });
 
+  // Dashboard
   app.get('/dashboard', (req, res) => {
     if (!req.session.user) return res.redirect('/login');
     res.render('dashboard', { user: req.session.user });
   });
 
+  // Logout
   app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
   });
 
-  // 404 fallback
+  // 404 Catch-all
   app.use((req, res) => {
     res.status(404).render('404', { page: '', message: "Sorry, the page you requested was not found." });
   });
